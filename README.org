@@ -1,0 +1,8 @@
+#+TITLE: iobj
+
+My [[https://github.com/colah/ImplicitCAD][ImplicitCAD]] objects.
+
+* See also
+
++ https://github.com/julialongtin/IObjects
++ https://github.com/isovector/cad-models
