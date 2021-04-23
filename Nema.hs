@@ -48,7 +48,7 @@ nema17 = Nema {
 
 side = 42.3
 
-objN = nema nema17
+obj = nema nema17
 
 nema Nema{..} =
   difference nemaBody
@@ -77,18 +77,3 @@ nema Nema{..} =
       ]
       where
         cornerSide = nemaSide * 1.25
-
-
---resize 
-
-obj = grid (pure 1000) (V2 100 100) $ centerCube 4
-
-objZ = union [
-  transform (V3
-  (V3 1 (tan (pi / 4)) 0)
-  (V3 0 1 0)
-  (V3 0 0 1)
-  ) $ cube True (pure 30)
-  , right 40 $ cube True (pure 30)
-  , left 40 $ cube True (pure 30)
-  ]
