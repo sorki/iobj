@@ -5,6 +5,7 @@ import Control.Applicative (pure)
 import Graphics.Implicit
 import Graphics.Implicit.Definitions
 import Graphics.Implicit.Primitives
+import Graphics.Implicit.MathUtil
 
 roundbox:: SymbolicObj3
 roundbox =
@@ -40,18 +41,22 @@ mixed s a b = implicit
   )
   (getBox (a <> b))
 
-loft :: Double -> SymbolicObj2 -> SymbolicObj2 -> SymbolicObj3
-loft _z2 a b = implicit
+loft :: Double -> Double -> SymbolicObj2 -> SymbolicObj2 -> SymbolicObj3
+loft z2 bulgeA a b = implicit
   (\(V3 x y z) ->
-    (getImplicit (mixed (z/z2-z1) a b) $ (V2 x y))
+    let
+      t =  z / z2-z1
+      bulge = ((-1) * bulgeA * (sin (pi * t)))
+    in
+      rmax 0 (bulge + (getImplicit (mixed t a b) $ (V2 x y)))
+        (abs (z - (z2-z1)/2) - (z2-z1)/2)
   )
   ((V3 x1 y1 z1), (V3 x2 y2 z2))
   where
     (V2 x1 y1, V2 x2 y2) = getBox (a <> b)
     z1 = 0
-    z2 = 5
 
-obj = loft 5 (square True (pure 10)) (circle 5)
+obj = loft 5 0 (square True (pure 10)) (circle 2)
 
 fMap
   :: (Object obj f a, Semigroup obj)
